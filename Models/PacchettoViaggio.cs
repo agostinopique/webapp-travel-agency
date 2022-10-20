@@ -21,6 +21,9 @@ namespace webapp_travel_agency.Models
 
         public string Image { get; set; }
 
+        [Required]
+        public string Description { get; set; }
+
         public PacchettoViaggio()
         {
 

@@ -1,8 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using webapp_travel_agency.Models;
 
 namespace webapp_travel_agency.Controllers
 {
+    [Authorize]
     public class PacchettoController : Controller
     {
         private TravelContext _db;
@@ -46,6 +48,7 @@ namespace webapp_travel_agency.Controllers
             newPack.Days = pack.Days;
             newPack.Destination = pack.Destination;
             newPack.Image = pack.Image;
+            newPack.Description = pack.Description;
 
             _db.PacchettoViaggio.Add(newPack);
             _db.SaveChanges();
@@ -82,6 +85,8 @@ namespace webapp_travel_agency.Controllers
                 packUpdate.Image = pack.Image;
                 packUpdate.Days = pack.Days;
                 packUpdate.Destination = pack.Destination;
+                packUpdate.Description = pack.Description;
+
                 _db.SaveChanges();
 
             }

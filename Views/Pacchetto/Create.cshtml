@@ -10,6 +10,12 @@
 
     </div>
     <div class="mb-3">
+        <label for="packDesc" class="form-label">Nome del pacchetto:</label>
+        <textarea type="text" id="packDesc" class="form-control" asp-for="Description"></textarea>
+        <span class="text-danger" asp-validation-for="Description"></span>
+
+    </div>
+    <div class="mb-3">
         <label for="packPrice" class="form-label">Prezzo del pacchetto:</label>
         <input type="number" id="packPrice" class="form-control" step="any" asp-for="Price">
         <p class="card-text"><small class="text-muted">Inserisci il prezzo separato da virgola.</small></p>

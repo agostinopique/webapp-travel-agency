@@ -1,8 +1,46 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
+    Layout = "_Layout";
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <h1 class="display-4">Benvenuto nella nostra agenzia di viaggi</h1>
+    <div class="my-4">
+        <div class="package_container"></div>
+    </div>
 </div>
+
+<script>
+    axios.get("/api/client/get")
+    .then(res => {
+        const container = document.querySelector(".package_container");
+        let arrayLength = res.data.length;
+
+        console.log(arrayLength);
+        console.log(res.data);
+        if(arrayLength == 0) {
+                container.innerHTML = `
+                    <h2 class="alert alert-danger">Non sono presenti pacchetti su questo sito</h2>`
+        } else {
+            res.data.forEach(pack => {
+                    container.innerHTML += `
+                            <div class="card mb-3" style="max-width: 70%; height: 230px;">
+                                  <div class="row no-gutters h-100">
+                                    <div class="col-md-5 h-100">
+                                        <img src="${pack.image}" class="card-img w-100 h-100" alt="${pack.name}">
+                                    </div>
+                                    <div class="col-md-7">
+                                      <div class="card-body">
+                                        <h5 class="card-title">${pack.name}</h5>
+                                        <p class="card-text">Prezzo: ${pack.price}</p>
+                                        <p class="card-text">Vuoi scoprire le destinazioni che esploreremo? <br> 
+                                        Clicca sui dettagli per scoprire di più!</p>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                    `;
+            })
+        }
+    })
+</script>

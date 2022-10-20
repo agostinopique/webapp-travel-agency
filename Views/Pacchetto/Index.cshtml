@@ -12,6 +12,7 @@
                 <th scope="col"></th>
                 <th scope="col">Destination</th>
                 <th scope="col"></th>
+                <th scope="col">Azioni</th>
             </tr>
         </thead>
         <tbody>
@@ -32,12 +33,12 @@
                     <td><a class="btn btn-primary" href="@Url.Action("Details", "Pacchetto", new {id = pack.Id})">Dettagli</a></td>
 
                     <td><a class="btn btn-warning" href="@Url.Action("Edit", "Pacchetto", new {id = pack.Id})">Edit</a></td>
-                    @*<td>
-                        <form asp-controller="Pizza" asp-action="Delete" asp-route-id="@pizza.Id" method="post">
+                    <td>
+                        <form asp-controller="Pacchetto" asp-action="Delete" asp-route-id="@pack.Id" method="post">
                             @Html.AntiForgeryToken()
                             <button class="btn btn-danger" type="submit">Delete</button>
                         </form>
-                    </td>*@
+                    </td>
                 </tr>
                 count++;
             }
