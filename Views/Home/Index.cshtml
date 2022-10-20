@@ -11,13 +11,13 @@
 </div>
 
 <script>
+    const container = document.querySelector(".package_container");
+    // Chiamata default
     axios.get("/api/client/get")
     .then(res => {
-        const container = document.querySelector(".package_container");
+        
         let arrayLength = res.data.length;
 
-        console.log(arrayLength);
-        console.log(res.data);
         if(arrayLength == 0) {
                 container.innerHTML = `
                     <h2 class="alert alert-danger">Non sono presenti pacchetti su questo sito</h2>`
@@ -35,6 +35,7 @@
                                         <p class="card-text">Prezzo: ${pack.price}</p>
                                         <p class="card-text">Vuoi scoprire le destinazioni che esploreremo? <br> 
                                         Clicca sui dettagli per scoprire di più!</p>
+                                        <button onclick="detailPack(${pack.id})" class="btn btn-secondary" type="button">Details</button>
                                       </div>
                                     </div>
                                   </div>
@@ -43,4 +44,59 @@
             })
         }
     })
+
+    function detailPack(id){
+        axios.get("/api/client/get/" + id)
+        .then(res => {
+            // Correggere pack in res.data."dato da aggiungere"
+                container.innerHTML = `
+                <div class="card mb-3" >
+                    <img src="${pack.image}" class="card-img-top" alt = "${pack.name}" >
+                    <div class="card-body" >
+                        <h5 class="card-title">${pack.name}</h5>
+                        <p class="card-text">${pack.description}</p>
+                        <p class="card-text">${pack.destination}</p>
+                        <p class="card-text">&euro; ${pack.price}</p>
+                        <p class="card-text">${pack.days} giorni in viaggio</p>
+                            <button class="btn btn-primary" onclick="reset()">Indietro</a>
+                    </div>
+                </div>`
+        })
+    }
+
+    // Funzione di reset
+    function reset(){
+        axios.get("/api/client/get")
+            .then(res => {
+
+                let arrayLength = res.data.length;
+
+                if (arrayLength == 0) {
+                    container.innerHTML = `
+                        <h2 class="alert alert-danger">Non sono presenti pacchetti su questo sito</h2>`
+                } else {
+                    res.data.forEach(pack => {
+                        container.innerHTML += `
+                                <div class="card mb-3" style="max-width: 70%; height: 230px;">
+                                      <div class="row no-gutters h-100">
+                                        <div class="col-md-5 h-100">
+                                            <img src="${pack.image}" class="card-img w-100 h-100" alt="${pack.name}">
+                                        </div>
+                                        <div class="col-md-7">
+                                          <div class="card-body">
+                                            <h5 class="card-title">${pack.name}</h5>
+                                            <p class="card-text">Prezzo: ${pack.price}</p>
+                                            <p class="card-text">Vuoi scoprire le destinazioni che esploreremo? <br>
+                                            Clicca sui dettagli per scoprire di più!</p>
+                                            <button onclick="detailPack(${pack.id})" class="btn btn-secondary" type="button">Details</button>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                        `;
+                    })
+                }
+            })
+
+    }
 </script>

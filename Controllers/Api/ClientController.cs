@@ -21,5 +21,20 @@ namespace webapp_travel_agency.Controllers.Api
             List<PacchettoViaggio> packages = _db.PacchettoViaggio.ToList();    
             return Ok(packages);
         }
+
+        [HttpGet("{id}")]
+        public IActionResult Get(int id)
+        {
+            PacchettoViaggio packDetail = _db.PacchettoViaggio.Find(id);
+
+            if(packDetail == null)
+            {
+                return NotFound();
+            } 
+            else
+            {
+                return Ok(packDetail);
+            }
+        }
     }
 }
