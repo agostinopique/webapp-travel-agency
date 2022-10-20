@@ -1,0 +1,38 @@
+﻿@model PacchettoViaggio
+<h1>Create</h1>
+
+<form asp-controller="Pacchetto" asp-action="Store" method="post">
+    @Html.AntiForgeryToken()
+    <div class="mb-3">
+        <label for="packName" class="form-label">Nome del pacchetto:</label>
+        <input type="text" id="packName" class="form-control" asp-for="Name">
+        <span class="text-danger" asp-validation-for="Name"></span>
+    </div>
+    <div class="mb-3">
+        <label for="packPrice" class="form-label">Prezzo del pacchetto:</label>
+        <input type="text" id="packPrice" class="form-control" asp-for="Price">
+        <p class="card-text"><small class="text-muted">Inserisci il prezzo separato da virgola.</small></p>
+        <span class="text-danger" asp-validation-for="Price"></span>
+
+    </div>
+    <div class="mb-3">
+        <label for="packDest" class="form-label">Destinazioni del pacchetto:</label>
+        <input type="text" id="packDest" class="form-control" asp-for="Destination">
+        <p class="card-text"><small class="text-muted">Inserisci le destinazioni separate da virgola.</small></p>
+        <span class="text-danger" asp-validation-for="Destination"></span>
+
+    </div>
+    <div class="mb-3">
+        <label for="packImg" class="form-label">Immagine del pacchetto:</label>
+        <input type="text" id="packImg" class="form-control" asp-for="Image">
+        <span class="text-danger" asp-validation-for="Image"></span>
+
+    </div>
+    <div class="mb-3">
+        <label for="packDays" class="form-label">Giorni di viaggio:</label>
+        <input type="number" min="1" id="packDays" class="form-control" asp-for="Days">
+        <span class="text-danger" asp-validation-for="Days"></span>
+
+    </div>
+    <button class="btn btn-primary" type="submit">Salva</button>
+</form>

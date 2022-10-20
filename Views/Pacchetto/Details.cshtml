@@ -1,0 +1,16 @@
+﻿@model PacchettoViaggio
+
+<h1>Detail</h1>
+
+<div>
+    <div class="card mb-3">
+        <img src="@Model.Image" class="card-img-top" alt="@Model.Name">
+        <div class="card-body">
+            <h5 class="card-title">@Model.Name</h5>
+            <p class="card-text">@Model.Destination</p>
+            <p class="card-text">&euro; @Model.Price</p>
+            <p class="card-text">@Model.Days giorni in viaggio</p>
+            <a class="btn btn-primary" href="@Url.Action("Index", "Pacchetto")">Indietro</a>
+        </div>
+    </div>
+</div>

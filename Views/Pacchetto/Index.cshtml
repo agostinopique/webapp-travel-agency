@@ -1,0 +1,46 @@
+﻿@model List<PacchettoViaggio>
+
+<h1>I nostri pacchetti:</h1>
+<div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">#Id</th>
+                <th scope="col">Name</th>
+                <th scope="col">Image</th>
+                <th scope="col">Price</th>
+                <th scope="col">Destination</th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                int count = 0;
+            }
+            @foreach (PacchettoViaggio pack in Model)
+            {
+                <tr>
+                    <th scope="row">@count</th>
+                    <td>@pack.Name</td>
+                    <td><img style="width: 150px; height: 100px;" src="@Url.Content(@pack.Image)" alt="@pack.Name"></td>
+                    <td>&euro; @pack.Price</td>
+                    <td>Dove andiamo? <br> Vedi i dettagli del pacchetto per avere ulteriori informazioni!</td>
+
+                    @*Buttons*@
+                    <td><a class="btn btn-primary" href="@Url.Action("Details", "Pacchetto", new {id = pack.Id})">Dettagli</a></td>
+
+                    @*<td><a class="btn btn-warning" href="@Url.Action("Edit", "Pizza", new {id = pizza.Id})">Edit</a></td>
+                    <td>
+                        <form asp-controller="Pizza" asp-action="Delete" asp-route-id="@pizza.Id" method="post">
+                            @Html.AntiForgeryToken()
+                            <button class="btn btn-danger" type="submit">Delete</button>
+                        </form>
+                    </td>*@
+                </tr>
+                count++;
+            }
+        </tbody>
+    </table>
+</div>
+
+

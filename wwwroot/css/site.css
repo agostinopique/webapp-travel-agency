@@ -1,0 +1,39 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px;
+}
+
+/*.travel_card {
+    width: 400px;
+    height:550px;
+    display:flex;
+    flex-direction: column;
+    height: fit-content;
+    border: 1px solid black;
+    border-radius: 5px;
+
+}
+
+#card_img {
+    height: 65%;
+    object-fit: cover;
+}
+
+.card_body {
+    height: 35%;
+    padding: 20px 30px;
+}*/
