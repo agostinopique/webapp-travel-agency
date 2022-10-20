@@ -1,7 +1,7 @@
 ﻿@model PacchettoViaggio
-<h1>Create</h1>
+<h1>Aggiorna il pacchetto</h1>
 
-<form asp-controller="Pacchetto" asp-action="Store" method="post">
+<form asp-controller="Pacchetto" asp-action="UpdatePack" asp-route-id="@Model.Id" method="post">
     @Html.AntiForgeryToken()
     <div class="mb-3">
         <label for="packName" class="form-label">Nome del pacchetto:</label>

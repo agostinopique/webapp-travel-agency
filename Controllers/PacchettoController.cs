@@ -40,11 +40,68 @@ namespace webapp_travel_agency.Controllers
                 return View("Create", pack);
             }
 
-            PacchettoViaggio newPack = new PacchettoViaggio(pack);
+            PacchettoViaggio newPack = new PacchettoViaggio();
+            newPack.Name = pack.Name;
+            newPack.Price = pack.Price;
+            newPack.Days = pack.Days;
+            newPack.Destination = pack.Destination;
+            newPack.Image = pack.Image;
 
-            _db.Add(pack);
+            _db.PacchettoViaggio.Add(newPack);
             _db.SaveChanges();
-            return View("Details", pack.Id);
+            return RedirectToAction("Index");
+        }
+
+        [HttpGet]
+        public IActionResult Edit(int id)
+        {
+            PacchettoViaggio pack = _db.PacchettoViaggio.Find(id);
+            if(pack == null)
+            {
+                return NotFound();
+            }
+
+            return View("EditPack", pack);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult UpdatePack(int id, PacchettoViaggio pack)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View("EditPack", pack);
+            }
+
+            PacchettoViaggio packUpdate = _db.PacchettoViaggio.Find(id);
+
+            if(packUpdate != null)
+            {
+                packUpdate.Name = pack.Name;
+                packUpdate.Price = pack.Price;
+                packUpdate.Image = pack.Image;
+                packUpdate.Days = pack.Days;
+                packUpdate.Destination = pack.Destination;
+                _db.SaveChanges();
+
+            }
+            else
+            {
+                return NotFound();
+            }
+            return RedirectToAction("Details", packUpdate);
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Delete(int id)
+        {
+            _db.Remove(_db.PacchettoViaggio.Find(id));
+            _db.SaveChanges();
+
+
+            return RedirectToAction("Index");
         }
     }
 }

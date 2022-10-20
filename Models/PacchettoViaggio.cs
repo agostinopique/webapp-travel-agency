@@ -11,7 +11,7 @@ namespace webapp_travel_agency.Models
 
         [Required]
 
-        public float Price { get; set; }
+        public int Price { get; set; }
 
         [Required]
         public int Days { get; set; }
@@ -26,7 +26,7 @@ namespace webapp_travel_agency.Models
 
         }
 
-        public PacchettoViaggio(string name, float price, int days, string destination, string image)
+        public PacchettoViaggio(string name, int price, int days, string destination, string image)
         {
             int id = 0;
             this.Id = id;

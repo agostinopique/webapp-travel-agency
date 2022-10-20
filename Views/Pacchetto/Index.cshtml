@@ -9,6 +9,7 @@
                 <th scope="col">Name</th>
                 <th scope="col">Image</th>
                 <th scope="col">Price</th>
+                <th scope="col"></th>
                 <th scope="col">Destination</th>
                 <th scope="col"></th>
             </tr>
@@ -24,13 +25,14 @@
                     <td>@pack.Name</td>
                     <td><img style="width: 150px; height: 100px;" src="@Url.Content(@pack.Image)" alt="@pack.Name"></td>
                     <td>&euro; @pack.Price</td>
+                    <td></td>
                     <td>Dove andiamo? <br> Vedi i dettagli del pacchetto per avere ulteriori informazioni!</td>
 
                     @*Buttons*@
                     <td><a class="btn btn-primary" href="@Url.Action("Details", "Pacchetto", new {id = pack.Id})">Dettagli</a></td>
 
-                    @*<td><a class="btn btn-warning" href="@Url.Action("Edit", "Pizza", new {id = pizza.Id})">Edit</a></td>
-                    <td>
+                    <td><a class="btn btn-warning" href="@Url.Action("Edit", "Pacchetto", new {id = pack.Id})">Edit</a></td>
+                    @*<td>
                         <form asp-controller="Pizza" asp-action="Delete" asp-route-id="@pizza.Id" method="post">
                             @Html.AntiForgeryToken()
                             <button class="btn btn-danger" type="submit">Delete</button>
