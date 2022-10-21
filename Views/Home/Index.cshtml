@@ -5,6 +5,15 @@
 
 <div class="text-center">
     <h1 class="display-4">Benvenuto nella nostra agenzia di viaggi</h1>
+    <div class="d-flex justify-content-center">
+        <div id="searchForm" class="d-flex align-content-center">
+            <div class="mb-3">
+                <label for="searchString" class="form-label">Cerca un pacchetto: </label>
+                <input type="text" class="form-control" id="searchString" aria-describedby="emailHelp">
+            </div>
+            <button id="searchPackBtn" class="btn btn-primary mb-3" onclick="getPacks()">Submit</button>
+        </div>
+    </div>
     <div class="my-4">
         <div class="package_container"></div>
     </div>
@@ -12,6 +21,7 @@
 
 <script>
     const container = document.querySelector(".package_container");
+
     // Chiamata default
     axios.get("/api/client/get")
     .then(res => {
@@ -48,17 +58,18 @@
     function detailPack(id){
         axios.get("/api/client/get/" + id)
         .then(res => {
+
             // Correggere pack in res.data."dato da aggiungere"
                 container.innerHTML = `
                 <div class="card mb-3" >
-                    <img src="${pack.image}" class="card-img-top" alt = "${pack.name}" >
+                    <img src="${res.data.image}" class="card-img-top" alt = "${res.data.name}" >
                     <div class="card-body" >
-                        <h5 class="card-title">${pack.name}</h5>
-                        <p class="card-text">${pack.description}</p>
-                        <p class="card-text">${pack.destination}</p>
-                        <p class="card-text">&euro; ${pack.price}</p>
-                        <p class="card-text">${pack.days} giorni in viaggio</p>
-                            <button class="btn btn-primary" onclick="reset()">Indietro</a>
+                        <h5 class="card-title">${res.data.name}</h5>
+                        <p class="card-text">${res.data.description}</p>
+                        <p class="card-text">${res.data.destination}</p>
+                        <p class="card-text">&euro; ${res.data.price}</p>
+                        <p class="card-text">${res.data.days} giorni in viaggio</p>
+                        <button class="btn btn-primary" onclick="reset()">Indietro</a>
                     </div>
                 </div>`
         })
@@ -66,6 +77,7 @@
 
     // Funzione di reset
     function reset(){
+        container.innerHTML = '';
         axios.get("/api/client/get")
             .then(res => {
 
@@ -98,5 +110,46 @@
                 }
             })
 
+    }
+
+    // Funzione di ricerca per stringa 
+    function getPacks() {
+        const inputBar = document.querySelector("#searchString");
+        let inputValue = inputBar.value;
+
+        axios.get("/api/client/getPack?param=" + inputValue)
+            .then(res => {
+                console.log(res);
+                let arrayLength = res.data.length;
+                container.innerHTML = "";
+                if (arrayLength == 0) {
+                    container.innerHTML = `
+                            <h2 class="alert alert-danger">Non siamo riusciuti a trovare quello che cercavi!</h2>` 
+                } else {
+                    res.data.forEach(pack => {
+                        container.innerHTML += `
+                            <div class="card mb-3" style="max-width: 70%; height: 230px;">
+                                 <div class="row no-gutters h-100">
+                                    <div class="col-md-5 h-100">
+                                        <img src="${pack.image}" class="card-img w-100 h-100" alt="${pack.name}">
+                                    </div>
+                                    <div class="col-md-7">
+                                        <div class="card-body">
+                                        <h5 class="card-title">${pack.name}</h5>
+                                        <p class="card-text">Prezzo: ${pack.price}</p>
+                                        <p class="card-text">Vuoi scoprire le destinazioni che esploreremo? <br>
+                                        Clicca sui dettagli per scoprire di più!</p>
+                                        <button onclick="detailPack(${pack.id})" class="btn btn-secondary" type="button">Details</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            `;
+                    })
+                }
+            })
+        .catch(err => {
+            console.log(err);
+        })
     }
 </script>

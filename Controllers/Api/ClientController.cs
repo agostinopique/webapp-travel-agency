@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
 using webapp_travel_agency.Models;
 
 namespace webapp_travel_agency.Controllers.Api
@@ -35,6 +36,19 @@ namespace webapp_travel_agency.Controllers.Api
             {
                 return Ok(packDetail);
             }
+        }
+
+        [HttpGet]
+        public IActionResult GetPack(string? param)
+        {
+            if(param == null)
+            {
+                return BadRequest();
+            }
+
+            List<PacchettoViaggio> packs = _db.PacchettoViaggio.Where(pack => pack.Name.ToLower().Contains(param.ToLower()) || pack.Description.ToLower().Contains(param.ToLower())).ToList();
+
+            return Ok(packs);
         }
     }
 }

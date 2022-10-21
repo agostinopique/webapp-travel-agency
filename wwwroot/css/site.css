@@ -17,23 +17,8 @@ body {
   margin-bottom: 60px;
 }
 
-/*.travel_card {
-    width: 400px;
-    height:550px;
-    display:flex;
-    flex-direction: column;
-    height: fit-content;
-    border: 1px solid black;
-    border-radius: 5px;
 
+#searchPackBtn {
+    margin-top: 32px;
+    margin-left: 10px;
 }
-
-#card_img {
-    height: 65%;
-    object-fit: cover;
-}
-
-.card_body {
-    height: 35%;
-    padding: 20px 30px;
-}*/
