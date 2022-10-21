@@ -2,13 +2,41 @@
 <h2>Ancora piu dettagli per un viaggio ancora piu avventuroso!</h2>
 
 <div id="cardContainer"></div>
+<div class="d-none" id="messageForm">
+    <form onsubmit="sendMessage(event)">
+        <div class="mb-3">
+            <label for="emailInput" class="form-label">Indirizzo Email</label>
+            <input type="text" class="form-control" id="emailInput">
+            <p class="mb-4"><small>Inserisci la tua mail in modo da essere ri-contattao!</small></p>
+            <span id="email" class="alert alert-danger d-none"></span>
+        </div>
+
+        <div class="mb-3">
+            <label for="nameInput" class="form-label">Nome e cognome</label>
+            <input type="text" class="form-control mb-4" id="nameInput">
+            <span id="name" class="alert alert-danger d-none"></span>
+        </div>
+
+        <div class="mb-3">
+            <label for="textInput" class="form-label">Cosa vorresti sapere?</label>
+            <textarea class="form-control mb-4" id="textInput"></textarea>
+            <span id="message" class="alert alert-danger d-none"></span>
+        </div>
+        <button class="btn btn-primary mt-2">Invia messaggio</button>
+    </form>
+      
+</div>
+<div id="messageFinal" class="d-none alert alert-success">
+    <p>Grazie per averci contatto!</p>
+    <p>Ti ricontatteremo il piu' presto possibile!</p>
+</div>
 
 <script type="text/javascript">
     const container = document.querySelector("#cardContainer");
     let id = window.location.search.split("=")[1];
  
-    console.log(id);
-
+  
+    //Get delete pacchetto specificato dall'utente al click del pulsante dettaglio    
     axios.get("/api/client/get/" + id)
     .then(res => {
 
@@ -22,9 +50,53 @@
                 <p class="card-text">&euro; ${res.data.price}</p>
                 <p class="card-text">${res.data.days} giorni in viaggio</p>
                 <a class="btn btn-primary" href="/home/index" >Scopri altri viaggi!</a>
+                <button class="btn btn-primary" onclick="showForm()">Contattaci</button>
             </div>
         </div>`
     })
    
+    function showForm(){
+        document.querySelector("#messageForm").classList.remove("d-none");
+    }
+
+    function sendMessage(e){
+       e.preventDefault();
+
+       // seleziona tutte le input, prendi i valori e inviali tramite AXIOS alla funzione che si occupera di salvare il messaggio
+        const emailInp = document.querySelector("#emailInput");
+        const nameInp = document.querySelector("#nameInput");
+        const textInp = document.querySelector("#textInput");
+
+        axios.post("/api/message/post", {
+            email: emailInp.value,
+            namesurname: nameInp.value,
+            content: textInp.value,
+            PacchettoViaggioId: id
+        })
+        .then(res => {
+            console.log(res);
+            document.querySelector("#messageFinal").classList.remove("d-none");
+            document.querySelector("#messageForm").classList.add("d-none");
+        })
+        .catch(err => {
+            console.log(err);
+            if(err.response.data.errors.NameSurname){
+                document.querySelector("#name").classList.remove("d-none");
+                document.querySelector("#name").innerHTML = err.response.data.errors.NameSurname[0];
+            }
+            
+            if(err.response.data.errors.Email){
+                document.querySelector("#email").classList.remove("d-none");
+                document.querySelector("#email").innerHTML = err.response.data.errors.Email[0];
+            }
+
+            if (err.response.data.errors.Content){
+                document.querySelector("#message").classList.remove("d-none");
+                document.querySelector("#message").innerHTML = err.response.data.errors.Content[0];
+            }
+           
+        })
+    }
+
 
 </script>

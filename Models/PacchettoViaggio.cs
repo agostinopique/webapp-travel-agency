@@ -24,6 +24,11 @@ namespace webapp_travel_agency.Models
         [Required]
         public string Description { get; set; }
 
+
+        // Relazione con i messaggi: Un pacchetto ha tanti messaggi - un messaggio e' diretto ad un solo pacchetto
+        public List<Message> Messages { get; set; }
+
+
         public PacchettoViaggio()
         {
 

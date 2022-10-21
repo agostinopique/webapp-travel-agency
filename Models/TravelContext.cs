@@ -19,6 +19,8 @@ namespace webapp_travel_agency.Models
         }
         public DbSet<PacchettoViaggio> PacchettoViaggio { get; set; }
 
+        public DbSet<Message> Message { get; set; }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlServer("Data Source=localhost;Initial Catalog=travel-agency-db;Integrated Security=True");

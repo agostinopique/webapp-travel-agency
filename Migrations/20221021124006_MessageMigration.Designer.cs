@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using webapp_travel_agency.Models;
 
@@ -11,9 +12,10 @@ using webapp_travel_agency.Models;
 namespace webapp_travel_agency.Migrations
 {
     [DbContext(typeof(TravelContext))]
-    partial class TravelContextModelSnapshot : ModelSnapshot
+    [Migration("20221021124006_MessageMigration")]
+    partial class MessageMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -244,12 +246,7 @@ namespace webapp_travel_agency.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("PacchettoViaggioId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("PacchettoViaggioId");
 
                     b.ToTable("Message");
                 });
@@ -338,22 +335,6 @@ namespace webapp_travel_agency.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("webapp_travel_agency.Models.Message", b =>
-                {
-                    b.HasOne("webapp_travel_agency.Models.PacchettoViaggio", "PacchettoViaggio")
-                        .WithMany("Messages")
-                        .HasForeignKey("PacchettoViaggioId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("PacchettoViaggio");
-                });
-
-            modelBuilder.Entity("webapp_travel_agency.Models.PacchettoViaggio", b =>
-                {
-                    b.Navigation("Messages");
                 });
 #pragma warning restore 612, 618
         }
