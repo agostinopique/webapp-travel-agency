@@ -1,0 +1,30 @@
+﻿
+<h2>Ancora piu dettagli per un viaggio ancora piu avventuroso!</h2>
+
+<div id="cardContainer"></div>
+
+<script type="text/javascript">
+    const container = document.querySelector("#cardContainer");
+    let id = window.location.search.split("=")[1];
+ 
+    console.log(id);
+
+    axios.get("/api/client/get/" + id)
+    .then(res => {
+
+        container.innerHTML = `
+        <div class="card mb-3" >
+            <img src="${res.data.image}" class="card-img-top" alt = "${res.data.name}" >
+            <div class="card-body" >
+                <h5 class="card-title">${res.data.name}</h5>
+                <p class="card-text">${res.data.description}</p>
+                <p class="card-text">${res.data.destination}</p>
+                <p class="card-text">&euro; ${res.data.price}</p>
+                <p class="card-text">${res.data.days} giorni in viaggio</p>
+                <a class="btn btn-primary" href="/home/index" >Scopri altri viaggi!</a>
+            </div>
+        </div>`
+    })
+   
+
+</script>

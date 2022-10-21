@@ -1,6 +1,6 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
-    Layout = "_Layout";
+    Layout = "_FrontLayout";
 }
 
 <div class="text-center">
@@ -33,123 +33,108 @@
                     <h2 class="alert alert-danger">Non sono presenti pacchetti su questo sito</h2>`
         } else {
             res.data.forEach(pack => {
-                    container.innerHTML += `
-                            <div class="card mb-3" style="max-width: 70%; height: 230px;">
-                                  <div class="row no-gutters h-100">
-                                    <div class="col-md-5 h-100">
-                                        <img src="${pack.image}" class="card-img w-100 h-100" alt="${pack.name}">
-                                    </div>
-                                    <div class="col-md-7">
-                                      <div class="card-body">
-                                        <h5 class="card-title">${pack.name}</h5>
-                                        <p class="card-text">Prezzo: ${pack.price}</p>
-                                        <p class="card-text">Vuoi scoprire le destinazioni che esploreremo? <br> 
-                                        Clicca sui dettagli per scoprire di più!</p>
-                                        <button onclick="detailPack(${pack.id})" class="btn btn-secondary" type="button">Details</button>
-                                      </div>
-                                    </div>
-                                  </div>
+                container.innerHTML += `
+                    <div class="card mb-3" style="max-width: 70%; height: 230px;">
+                        <div class="row no-gutters h-100">
+                            <div class="col-md-5 h-100">
+                                <img src="${pack.image}" class="card-img w-100 h-100" alt="${pack.name}">
+                            </div>
+                            <div class="col-md-7">
+                                <div class="card-body">
+                                    <h5 class="card-title">${pack.name}</h5>
+                                    <p class="card-text">Prezzo: ${pack.price}</p>
+                                    <p class="card-text">Vuoi scoprire le destinazioni che esploreremo? <br> 
+                                    Clicca sui dettagli per scoprire di più!</p>
+                                    <a class="btn btn-secondary" href="/home/details?id=${pack.id}">Dettagli</a>
                                 </div>
-                    `;
+                            </div>
+                         </div>
+                    </div>
+                `;
             })
         }
     })
 
-    function detailPack(id){
-        axios.get("/api/client/get/" + id)
-        .then(res => {
-
-            // Correggere pack in res.data."dato da aggiungere"
-                container.innerHTML = `
-                <div class="card mb-3" >
-                    <img src="${res.data.image}" class="card-img-top" alt = "${res.data.name}" >
-                    <div class="card-body" >
-                        <h5 class="card-title">${res.data.name}</h5>
-                        <p class="card-text">${res.data.description}</p>
-                        <p class="card-text">${res.data.destination}</p>
-                        <p class="card-text">&euro; ${res.data.price}</p>
-                        <p class="card-text">${res.data.days} giorni in viaggio</p>
-                        <button class="btn btn-primary" onclick="reset()">Indietro</a>
-                    </div>
-                </div>`
-        })
-    }
-
-    // Funzione di reset
-    function reset(){
-        container.innerHTML = '';
-        axios.get("/api/client/get")
-            .then(res => {
-
-                let arrayLength = res.data.length;
-
-                if (arrayLength == 0) {
-                    container.innerHTML = `
-                        <h2 class="alert alert-danger">Non sono presenti pacchetti su questo sito</h2>`
-                } else {
-                    res.data.forEach(pack => {
-                        container.innerHTML += `
-                                <div class="card mb-3" style="max-width: 70%; height: 230px;">
-                                      <div class="row no-gutters h-100">
-                                        <div class="col-md-5 h-100">
-                                            <img src="${pack.image}" class="card-img w-100 h-100" alt="${pack.name}">
-                                        </div>
-                                        <div class="col-md-7">
-                                          <div class="card-body">
-                                            <h5 class="card-title">${pack.name}</h5>
-                                            <p class="card-text">Prezzo: ${pack.price}</p>
-                                            <p class="card-text">Vuoi scoprire le destinazioni che esploreremo? <br>
-                                            Clicca sui dettagli per scoprire di più!</p>
-                                            <button onclick="detailPack(${pack.id})" class="btn btn-secondary" type="button">Details</button>
-                                          </div>
-                                        </div>
-                                      </div>
-                                    </div>
-                        `;
-                    })
-                }
-            })
-
-    }
-
-    // Funzione di ricerca per stringa 
+    // Funzione di ricerca per stringa
     function getPacks() {
         const inputBar = document.querySelector("#searchString");
         let inputValue = inputBar.value;
 
         axios.get("/api/client/getPack?param=" + inputValue)
-            .then(res => {
-                console.log(res);
-                let arrayLength = res.data.length;
-                container.innerHTML = "";
-                if (arrayLength == 0) {
-                    container.innerHTML = `
-                            <h2 class="alert alert-danger">Non siamo riusciuti a trovare quello che cercavi!</h2>` 
-                } else {
-                    res.data.forEach(pack => {
-                        container.innerHTML += `
+        .then(res => {
+            console.log(res);
+            let arrayLength = res.data.length;
+            container.innerHTML = "";
+            if (arrayLength == 0) {
+                container.innerHTML = `
+                            <h2 class="alert alert-danger">Non siamo riusciuti a trovare quello che cercavi!</h2>`
+            } else {
+                res.data.forEach(pack => {
+                    container.innerHTML += `
                             <div class="card mb-3" style="max-width: 70%; height: 230px;">
-                                 <div class="row no-gutters h-100">
+                                    <div class="row no-gutters h-100">
                                     <div class="col-md-5 h-100">
                                         <img src="${pack.image}" class="card-img w-100 h-100" alt="${pack.name}">
                                     </div>
                                     <div class="col-md-7">
                                         <div class="card-body">
-                                        <h5 class="card-title">${pack.name}</h5>
-                                        <p class="card-text">Prezzo: ${pack.price}</p>
-                                        <p class="card-text">Vuoi scoprire le destinazioni che esploreremo? <br>
-                                        Clicca sui dettagli per scoprire di più!</p>
-                                        <button onclick="detailPack(${pack.id})" class="btn btn-secondary" type="button">Details</button>
+                                            <h5 class="card-title">${pack.name}</h5>
+                                            <p class="card-text">Prezzo: ${pack.price}</p>
+                                            <p class="card-text">Vuoi scoprire le destinazioni che esploreremo? <br>
+                                            Clicca sui dettagli per scoprire di più!</p>
+                                                <a class="btn btn-secondary" href="/home/details?id=${pack.id}">Dettagli</a>
+
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             `;
-                    })
-                }
-            })
+                })
+            }
+        })
         .catch(err => {
             console.log(err);
         })
     }
+
+   
+    // Funzione di reset
+
+    //function reset(){
+    //    container.innerHTML = '';
+    //    axios.get("/api/client/get")
+    //        .then(res => {
+
+    //            let arrayLength = res.data.length;
+
+    //            if (arrayLength == 0) {
+    //                container.innerHTML = `
+    //                    <h2 class="alert alert-danger">Non sono presenti pacchetti su questo sito</h2>`
+    //            } else {
+    //                res.data.forEach(pack => {
+    //                    container.innerHTML += `
+    //                            <div class="card mb-3" style="max-width: 70%; height: 230px;">
+    //                                  <div class="row no-gutters h-100">
+    //                                    <div class="col-md-5 h-100">
+    //                                        <img src="${pack.image}" class="card-img w-100 h-100" alt="${pack.name}">
+    //                                    </div>
+    //                                    <div class="col-md-7">
+    //                                      <div class="card-body">
+    //                                        <h5 class="card-title">${pack.name}</h5>
+    //                                        <p class="card-text">Prezzo: ${pack.price}</p>
+    //                                        <p class="card-text">Vuoi scoprire le destinazioni che esploreremo? <br>
+    //                                        Clicca sui dettagli per scoprire di più!</p>
+    //                                        <button onclick="detailPack(${pack.id})" class="btn btn-secondary" type="button">Details</button>
+    //                                      </div>
+    //                                    </div>
+    //                                  </div>
+    //                                </div>
+    //                    `;
+    //                })
+    //            }
+    //        })
+
+    //}
+
+   
 </script>
