@@ -1,17 +1,45 @@
-﻿@model PacchettoViaggio
+﻿@model PacchettiMessaggi
 
 <h1>Detail</h1>
 
 <div>
     <div class="card mb-3">
-        <img src="@Model.Image" class="card-img-top" alt="@Model.Name">
+        <img src="@Model.PacchettoViaggio.Image" class="card-img-top" alt="@Model.PacchettoViaggio.Name">
         <div class="card-body">
-            <h5 class="card-title">@Model.Name</h5>
-            <p class="card-text">@Model.Description</p>
-            <p class="card-text">@Model.Destination</p>
-            <p class="card-text">&euro; @Model.Price</p>
-            <p class="card-text">@Model.Days giorni in viaggio</p>
+            <h5 class="card-title">@Model.PacchettoViaggio.Name</h5>
+            <p class="card-text">@Model.PacchettoViaggio.Description</p>
+            <p class="card-text">@Model.PacchettoViaggio.Destination</p>
+            <p class="card-text">&euro; @Model.PacchettoViaggio.Price</p>
+            <p class="card-text">@Model.PacchettoViaggio.Days giorni in viaggio</p>
             <a class="btn btn-primary" href="@Url.Action("Index", "Pacchetto")">Indietro</a>
         </div>
+    </div>
+    <div>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">#Id</th>
+                    <th scope="col">Mittente</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Contenuto</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    int count = 0;
+                }
+                @foreach (Message mess in Model.Messages)
+                {
+                    <tr>
+                        <th scope="row">@count</th>
+                        <td>@mess.NameSurname</td>
+                        <td>@mess.Email</td>
+                        <td>@mess.Content</td>
+                        <td></td>
+                    </tr>
+                    count++;
+                }
+            </tbody>
+        </table>
     </div>
 </div>

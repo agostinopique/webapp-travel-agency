@@ -4,6 +4,11 @@ using webapp_travel_agency.Models;
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("TravelContextConnection") ?? throw new InvalidOperationException("Connection string 'TravelContextConnection' not found.");
 
+// Per far funzionare gli include nelle query di ricerca dal DB
+builder.Services.AddControllers().AddNewtonsoftJson(options =>
+    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+    );
+
 builder.Services.AddDbContext<TravelContext>(options =>
     options.UseSqlServer(connectionString));
 
